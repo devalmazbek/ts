@@ -68,3 +68,21 @@ function checkIfArray<T>(value: T): IsArray<T> {
 console.log(checkIfArray([1, 2, 3]));
 
 // end home work 2
+
+// home work 3
+interface EndPoint {
+    entity: string;
+    action: string;
+}
+
+type ApiEndpoint<Entity extends string, Action extends string> = `/api/${Entity}/${Action}`;
+
+function getEndPoint<T extends EndPoint>(endpoint: T): ApiEndpoint<T['entity'], T['action']> {
+    return `/api/${endpoint.entity}/${endpoint.action}` as ApiEndpoint<T['entity'], T['action']>;
+}
+
+const getUserInfo: EndPoint = {entity: 'user', action: 'create'};
+
+console.log(getEndPoint(getUserInfo));
+
+// end home work 3
