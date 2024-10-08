@@ -29,4 +29,9 @@ function checkIfArray(value) {
     return (Array.isArray(value) ? 'array' : 'not array');
 }
 console.log(checkIfArray([1, 2, 3]));
-// end home work 2
+function getEndPoint(endpoint) {
+    return "".concat(endpoint.entity, " ").concat(endpoint.action);
+}
+var getUserInfo = { entity: 'user', action: 'create' };
+console.log(getEndPoint(getUserInfo));
+// end home work 3
