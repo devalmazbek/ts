@@ -230,9 +230,123 @@ console.log(optionalPerson);
 
 // home work 6
 
+interface Vehicle {
+    make: string;
+    model: string;
+    year: number;
+}
 
+type VehicleMakeType = Vehicle['make'];
+type VehicleYearType = Vehicle['year'];
+
+
+function getVenicleType(vehicle: Vehicle): string {
+    // const make: VehicleMakeType = vehicle.make;
+    // const year: VehicleYearType = vehicle.year;
+    // const make = vehicle.make as VehicleMakeType;  // Явно указываем, что это VehicleMakeType
+    // const year = vehicle.year as VehicleYearType;  // Явно указываем, что это VehicleYearType
+
+    return `Make: ${vehicle.make}, Year: ${vehicle.year}`
+};
+
+
+const vehicle = {make: 'home work', model: 'ts', year: 2024};
+console.log(getVenicleType(vehicle));
 
 
 // end home work 6
+
+/* Домашнее задание №2: Key Remapping in Mapped Types
+Создайте интерфейс Product с полями productId, productName, и price.
+Используя сопоставленные типы, создайте новый тип UppercaseProduct, где все ключи объекта Product будут в верхнем регистре (например, PRODUCT_ID, PRODUCT_NAME, PRICE).
+Напишите функцию, которая принимает объект Product и возвращает объект типа UppercaseProduct. */
+
+
+// home work 7
+
+interface Products {
+    productId: number;
+    productName: string;
+    price: number;
+}
+
+type UppercaseProduct = {
+    [K in keyof Products as Uppercase<K & string>]: Products[K];
+};
+
+function transformToUppercase(products: Products): UppercaseProduct {
+    return {
+        PRODUCTID: products.productId,
+        PRODUCTNAME: products.productName,
+        PRICE: products.price,
+    };
+}
+
+const products: Products = {
+    productId: 12,
+    productName: 'milk',
+    price: 100,
+};
+
+console.log(transformToUppercase(products));
+
+// end home work 7
+
+/*
+Домашнее задание №3: Key Remapping with Conditional Types
+Создайте интерфейс UserProfile с полями username, age, и isAdmin.
+Используйте сопоставленные типы и условные типы, чтобы создать новый тип TransformedUserProfile, где:
+Если поле имеет тип string, оно становится необязательным.
+Если поле имеет тип boolean, оно становится readonly.
+Если поле имеет тип number, оно остается без изменений.
+Напишите функцию, которая принимает объект UserProfile и возвращает объект типа TransformedUserProfile.
+
+ */
+
+// home work 8
+interface UserProfile {
+    username: string;
+    age: number;
+    isAdmin: boolean;
+}
+
+type TransformedUserProfile = {
+    [K in keyof UserProfile]:
+    UserProfile[K] extends string ? UserProfile[K] | undefined : // если тип string, поле станет необязательным
+    UserProfile[K] extends boolean ? Readonly<UserProfile[K]>  : // если тип boolean, поле станет readonly
+    UserProfile[K];
+}
+
+// function isString(value: unknown): value is string {
+//     return typeof value === 'string';
+// }
+
+// function isNumber(value: unknown): value is number {
+//     return typeof value === 'number';
+// }
+
+// function isBoolean(value: unknown): value is boolean {
+//     return typeof value === 'boolean';
+// }
+
+function createTransformedUserProfile(userProfile: UserProfile): TransformedUserProfile {
+    return {
+        username: userProfile.username,
+        age: userProfile.age,
+        isAdmin: userProfile.isAdmin as Readonly<boolean>,
+    }
+}
+
+const userProfile: UserProfile = {
+    username: 'jonh',
+    age: 23,
+    isAdmin: false,
+};
+
+console.log(createTransformedUserProfile(userProfile));
+
+// end home work 8
+
+
 
 

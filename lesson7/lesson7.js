@@ -47,12 +47,6 @@ function transformToReadOnlyType(order) {
 var order = { orderId: 12, customerName: 'Jonh', totalAmount: 200 };
 var readonlyOrder = transformToReadOnlyType(order);
 console.log(readonlyOrder);
-function isString(value) {
-    return typeof value === 'string';
-}
-function isBoolean(value) {
-    return typeof value === 'boolean';
-}
 function createOptionalPerson(person) {
     return {
         name: person.name,
@@ -60,7 +54,52 @@ function createOptionalPerson(person) {
         isEmployed: person.isEmployed
     };
 }
-var person = { name: "John", age: 30, isEmployed: true };
-var optionalPerson = createOptionalPerson(person);
+var newPerson = { name: "John", age: 30, isEmployed: true };
+var optionalPerson = createOptionalPerson(newPerson);
 console.log(optionalPerson);
-// end home work 5
+function getVenicleType(vehicle) {
+    // const make: VehicleMakeType = vehicle.make;
+    // const year: VehicleYearType = vehicle.year;
+    // const make = vehicle.make as VehicleMakeType;  // Явно указываем, что это VehicleMakeType
+    // const year = vehicle.year as VehicleYearType;  // Явно указываем, что это VehicleYearType
+    return "Make: ".concat(vehicle.make, ", Year: ").concat(vehicle.year);
+}
+;
+var vehicle = { make: 'home work', model: 'ts', year: 2024 };
+console.log(getVenicleType(vehicle));
+function transformToUppercase(products) {
+    return {
+        PRODUCTID: products.productId,
+        PRODUCTNAME: products.productName,
+        PRICE: products.price,
+    };
+}
+var products = {
+    productId: 12,
+    productName: 'milk',
+    price: 100,
+};
+console.log(transformToUppercase(products));
+// function isString(value: unknown): value is string {
+//     return typeof value === 'string';
+// }
+// function isNumber(value: unknown): value is number {
+//     return typeof value === 'number';
+// }
+// function isBoolean(value: unknown): value is boolean {
+//     return typeof value === 'boolean';
+// }
+function createTransformedUserProfile(userProfile) {
+    return {
+        username: userProfile.username,
+        age: userProfile.age,
+        isAdmin: userProfile.isAdmin,
+    };
+}
+var userProfile = {
+    username: 'jonh',
+    age: 23,
+    isAdmin: false,
+};
+console.log(createTransformedUserProfile(userProfile));
+// end home work 8
