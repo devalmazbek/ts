@@ -102,4 +102,45 @@ var userProfile = {
     isAdmin: false,
 };
 console.log(createTransformedUserProfile(userProfile));
-// end home work 8
+function getBookType(book) {
+    var title = book.title;
+    var publishedYear = book.publishedYear;
+    return "title: ".concat(title, " published year: ").concat(publishedYear);
+}
+var book = {
+    title: 'JS',
+    author: 'Kelian',
+    publishedYear: 2019,
+};
+console.log(getBookType(book));
+function transformToCamelCase(person) {
+    return {
+        FirstName: person.firstName,
+        LastName: person.lastName,
+        Age: person.age,
+    };
+}
+var new_person = {
+    firstName: 'Jonh',
+    lastName: 'Doe',
+    age: 25,
+};
+var tranformedPerson = transformToCamelCase(new_person);
+console.log(tranformedPerson);
+function convertToProfileModifier(employee) {
+    return {
+        fullName: employee.fullName,
+        age: employee.age,
+        isManager: employee.isManager,
+    };
+}
+var employeePerson = {
+    fullName: 'Jonh Doe',
+    age: 30,
+    isManager: true,
+};
+var convertedToProfileModifier = convertToProfileModifier(employeePerson);
+convertedToProfileModifier.age = 33;
+console.log(convertedToProfileModifier);
+console.log(convertToProfileModifier(employeePerson));
+// end home work 11

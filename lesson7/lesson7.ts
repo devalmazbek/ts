@@ -348,5 +348,128 @@ console.log(createTransformedUserProfile(userProfile));
 // end home work 8
 
 
+/* 
+Домашнее задание №1: Indexed Access Types
+Создайте интерфейс Book с полями title, author, и publishedYear.
+Используйте Indexed Access Types, чтобы создать типы BookTitleType и BookPublishedYearType, которые будут представлять типы полей title и publishedYear.
+Напишите функцию, которая принимает объект типа Book и возвращает его название и год публикации, используя типы, созданные с помощью Indexed Access Types.
+*/
+
+// home work 9
+
+interface Book {
+    title: string;
+    author: string;
+    publishedYear: number;
+}
+
+type BookTitleType = Book['title'];
+type BookPublishedYearType = Book['publishedYear'];
+
+function getBookType(book: Book): string {
+    const title: BookTitleType = book.title;
+    const publishedYear: BookPublishedYearType = book.publishedYear;
+
+    return `title: ${title} published year: ${publishedYear}`;
+}
+
+
+const book: Book = {
+    title: 'JS',
+    author: 'Kelian',
+    publishedYear: 2019,
+};
+
+console.log(getBookType(book));
+
+// end home work 9
+
+/* Домашнее задание №2: Key Remapping in Mapped Types
+Создайте интерфейс Person с полями firstName, lastName, и age.
+Используя Mapped Types, создайте новый тип CamelCasePerson, где все ключи объекта Person будут преобразованы в camelCase (например, first_name станет firstName).
+Напишите функцию, которая принимает объект Person и возвращает объект типа CamelCasePerson. */
+
+// home work 10
+
+interface PERSON {
+    firstName: string;
+    lastName: string;
+    age: number;
+}
+
+type CamelCasePerson = {
+    [K in keyof PERSON as Capitalize<K & string>]: PERSON[K];
+}
+
+
+function transformToCamelCase(person: PERSON): CamelCasePerson {
+    return {
+        FirstName: person.firstName,
+        LastName: person.lastName,
+        Age: person.age,
+    }
+}
+
+const new_person: PERSON = {
+    firstName: 'Jonh',
+    lastName: 'Doe',
+    age: 25,
+};
+
+const tranformedPerson = transformToCamelCase(new_person);
+
+
+console.log(tranformedPerson);
+
+// end home work 10
+
+/*
+Домашнее задание №3: Conditional Types
+Создайте интерфейс EmployeeProfile с полями fullName, age, и isManager.
+Используя Conditional Types, создайте новый тип ProfileModifier, где:
+Если поле имеет тип string, оно становится необязательным.
+Если поле имеет тип number, оно становится readonly.
+Если поле имеет тип boolean, оно становится обязательным (без изменений).
+Напишите функцию, которая принимает объект EmployeeProfile и возвращает объект типа ProfileModifier 
+ */
+
+// home work 11
+
+interface EmployeeProfile {
+    fullName: string;
+    age: number;
+    isManager: boolean;
+}
+
+type ProfileModifier = {
+    [K in keyof EmployeeProfile] : 
+    EmployeeProfile[K] extends string ? EmployeeProfile[K] | undefined :
+    EmployeeProfile[K] extends number ? Readonly<EmployeeProfile[K]> :
+    EmployeeProfile[K];
+}
+
+function convertToProfileModifier(employee: EmployeeProfile): ProfileModifier {
+    return {
+        fullName: employee.fullName,
+        age: employee.age as Readonly<number>,
+        isManager: employee.isManager,
+    }
+}
+
+const employeePerson: EmployeeProfile = {
+    fullName: 'Jonh Doe',
+    age: 30,
+    isManager: true,
+}
+
+const convertedToProfileModifier = convertToProfileModifier(employeePerson);
+
+convertedToProfileModifier.age = 33;
+
+console.log(convertedToProfileModifier);
+console.log(convertToProfileModifier(employeePerson));
+
+// end home work 11
+
 
 
