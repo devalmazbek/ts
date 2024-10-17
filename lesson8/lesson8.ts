@@ -136,7 +136,7 @@ function getReadOnlyUser(user: User): ReadonlyUser {
     }
 }
 
-const user = {
+const user: User = {
     id: 12,
     username: 'jonh',
     email: 'test@gmail.com',
