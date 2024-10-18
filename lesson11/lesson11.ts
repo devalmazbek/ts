@@ -157,9 +157,62 @@ const post1: Post = {
   const result2 = getPostStatus(post2);
   console.log(result2);
 
-
 // end home work 3
 
+/* 
+Домашнее задание №1: Динамическое изменение вложенных типов с DeepReadonly
+Создайте интерфейс Profile с полями id, name, и вложенным объектом settings с полями theme и language.
+Используя Mapped Types, создайте рекурсивный тип DeepReadonly<T>, который сделает все поля объекта и его вложенных объектов readonly.
+Напишите функцию, которая принимает объект Profile и возвращает его копию типа DeepReadonly<Profile>
+*/
+
+// home work 4
+
+interface Profile {
+    id: number;
+    name: string;
+    settings: {
+        theme: string;
+        language: string;
+    }
+}
+
+type DeepReadonly<T> = {
+    readonly [K in keyof T]: T[K] extends object ? DeepReadonly<T[K]>: T[K]; 
+}
+
+function createDeepReadOnlyType(profile: Profile): DeepReadonly<Profile> {
+    return JSON.parse(JSON.stringify(profile)) as DeepReadonly<Profile>;
+}
+
+const profile: Profile = {
+    id: 123,
+    name: 'test',
+    settings: {
+        theme: 'dark',
+        language: 'ru'
+    }
+};
+
+const covertedProfile = createDeepReadOnlyType(profile);
+
+covertedProfile.id = 123;
+covertedProfile.settings.theme = 'light';
+
+// end home work 4
+
+/* Домашнее задание №2: Условные типы и динамические типы с Flatten
+Создайте интерфейс NestedArray с полем values, которое содержит массив строк или чисел.
+Используя Conditional Types, создайте тип Flatten<T>, который, если передан массив, возвращает тип его элементов, а если нет — возвращает сам тип.
+Напишите функцию, которая принимает массив строк или чисел и возвращает первый элемент в соответствии с типом Flatten<T>. */
+
+// home work 5
+interface NestedArray {
+    values: string[],
+}
+
+
+// end home work 5
 
 
 
