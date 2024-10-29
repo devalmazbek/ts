@@ -77,4 +77,39 @@ var result1 = getPostStatus(post1);
 console.log(result1);
 var result2 = getPostStatus(post2);
 console.log(result2);
-// end home work 3
+function createDeepReadOnlyType(profile) {
+    return JSON.parse(JSON.stringify(profile));
+}
+var profile = {
+    id: 123,
+    name: 'test',
+    settings: {
+        theme: 'dark',
+        language: 'ru'
+    }
+};
+var covertedProfile = createDeepReadOnlyType(profile);
+function getFirstElement(arr) {
+    return arr.length > 0 ? arr[0] : undefined;
+}
+// Примеры использования
+var stringArray = ["apple", "banana", "cherry"];
+var numberArray = [1, 2, 3];
+var mixedArray = [1, "hello", 2];
+// Получаем первый элемент из разных массивов
+var firstString = getFirstElement(stringArray);
+var firstNumber = getFirstElement(numberArray);
+var firstMixed = getFirstElement(mixedArray);
+console.log(firstString);
+console.log(firstNumber);
+console.log(firstMixed);
+function getAdminUser(user) {
+    return "user role is ".concat(user.role, ", user name is ").concat(user.name);
+}
+var users = {
+    id: 123,
+    name: 'David',
+    role: 'manager',
+};
+console.log(getAdminUser(users));
+// end home work 6

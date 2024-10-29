@@ -196,8 +196,8 @@ const profile: Profile = {
 
 const covertedProfile = createDeepReadOnlyType(profile);
 
-covertedProfile.id = 123;
-covertedProfile.settings.theme = 'light';
+// covertedProfile.id = 123;
+// covertedProfile.settings.theme = 'light';
 
 // end home work 4
 
@@ -208,12 +208,70 @@ covertedProfile.settings.theme = 'light';
 
 // home work 5
 interface NestedArray {
-    values: string[],
+    values: (string | number)[];
 }
 
 
+// Conditional Type для Flatten<T>
+type Flatten<T> = T extends Array<infer U> ? U : T;
+
+type FlattenedStringArray = Flatten<string[]>;
+type FlattenedNumberArray = Flatten<number[]>;
+type FlattenedMixedArray = Flatten<(string | number)[]>;
+type FlattenedNonArray = Flatten<string>;
+
+
+function getFirstElement<T extends Array<unknown>>(arr: T): Flatten<T> | undefined {
+    return arr.length > 0 ? arr[0] as Flatten<T> : undefined;
+  }
+  
+  // Примеры использования
+  const stringArray = ["apple", "banana", "cherry"];
+  const numberArray = [1, 2, 3];
+  const mixedArray = [1, "hello", 2];
+  
+  // Получаем первый элемент из разных массивов
+  const firstString = getFirstElement(stringArray);
+  const firstNumber = getFirstElement(numberArray);
+  const firstMixed = getFirstElement(mixedArray);
+
+console.log(firstString);
+console.log(firstNumber);
+console.log(firstMixed);
+
 // end home work 5
 
+/* Домашнее задание №3: Расширенные Utility Types с Intersection и Union
+Создайте два интерфейса: Admin с полем role и User с полями id и name.
+Используя Utility Types, создайте тип AdminUser, который будет пересечением типов Admin и User.
+Напишите функцию, которая принимает объект AdminUser и возвращает строку, содержащую его роль и имя. */
+
+// home work 6
+
+interface Admin {
+    role: string;
+}
+
+interface Users {
+    id: number;
+    name: string;
+}
+
+type AdminUser = Admin & Users;
+
+function getAdminUser(user: AdminUser): string {
+    return `user role is ${user.role}, user name is ${user.name}`;
+}
+
+const users: AdminUser = {
+    id: 123,
+    name: 'David',
+    role: 'manager',
+}
+
+console.log(getAdminUser(users));
+
+// end home work 6
 
 
 
