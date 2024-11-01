@@ -86,9 +86,130 @@ NonAdminRoles — содержит только USER и GUEST.
 interface UserRoles {
     id: number;
     name: string;
-    role: string;
+    role: Roles;
 }
 
+const enum Roles {
+    Admin = "Admin",
+    User = "User",
+    Guest = "Guest",
+}
 
+type AdminRole = Extract<Roles, Roles.Admin>;
+type NonAdminRoles = Exclude<Roles, Roles.Admin>;
+
+
+function getRole(role: Roles): string {
+    if(role === Roles.Admin) return `Welcome ${role}`;
+
+    if(role === Roles.User) return `Welcome ${role}`;
+
+    if(role === Roles.Guest) return `Welcome ${role}`;
+
+    return 'Invalid role'
+}
+
+const admin: AdminRole = Roles.Admin;
+const new_users: NonAdminRoles = Roles.User;
+const guest: NonAdminRoles = Roles.Guest;
+
+console.log(getRole(admin));
+console.log(getRole(new_users));
+console.log(getRole(guest));
 
 // end home work3 
+
+/*Домашнее задание №1: Комплексная работа с Mapped Types
+Создайте интерфейс Product с полями id, name, price, и category.
+Используя Mapped Types, создайте новый тип ReadonlyProduct, где все поля будут readonly.
+Напишите функцию, которая принимает объект Product и возвращает его копию типа ReadonlyProduct.*/
+
+// home work 4
+interface Product {
+    id: string;
+    name: string;
+    price: number;
+    category: string;
+}
+
+type ReadonlyProduct = {
+    readonly [K in  keyof Product]: Product[K];
+}
+
+function getReadOnlyProduct(product: Product): ReadonlyProduct {
+    return {...product}
+};
+
+const product: Product = {
+    id: '123',
+    name: 'test',
+    price: 500,
+    category: 'test',
+};
+
+const readonlyProduct = getReadOnlyProduct(product);
+
+// readonlyProduct.id = '456';
+
+
+// end home work 4
+
+/*Домашнее задание №2: Динамическая проверка типов с помощью Conditional Types
+Создайте интерфейс Employee с полями id, name, position, и salary.
+Используя Conditional Types, создайте тип IsString<T>, который возвращает "string type", если передан тип T — строка, и "not string type" в противном случае.
+Напишите функцию, которая принимает любое поле объекта Employee и возвращает строку "string type" или "not string type" в зависимости от типа поля.*/
+
+// home work 5
+interface Employee {
+    id: number;
+    name: string;
+    position: string;
+    salary: number;
+}
+
+type IsString<T> = T extends string ? "string type" : "not string type";
+
+function checkIfString<T>(value: T): IsString<T> {
+    return(typeof value === 'string' ? "string type" : "not string type") as IsString<T>
+}
+
+const employees: Employee = { id: 1, name: "Alice", position: "Developer", salary: 5000 };
+
+console.log(checkIfString(employees.id)); 
+
+// end home work 5
+
+/* 
+Домашнее задание №3: Использование Record с динамическими ключами
+Создайте интерфейс Country с полями name и code.
+Используя утилиту Record, создайте тип CountryDirectory, который будет сопоставлять код страны (например, "US", "FR") с объектом Country.
+Напишите функцию, которая принимает массив стран и возвращает объект типа CountryDirectory.
+*/
+
+// home work 6
+interface Country {
+    name: string;
+    code: string;
+}
+
+type CountryDirectory = Record<string, Country>;
+
+function createCountryDirectory(countries: Country[]): CountryDirectory {
+    return countries.reduce<CountryDirectory>((directory, country) => {
+        directory[country.code] = country;
+        return directory;
+    }, {});
+}
+
+const countries: Country[] = [
+    { name: "United States", code: "US" },
+    { name: "France", code: "FR" },
+    { name: "Germany", code: "DE" }
+];
+
+const directory = createCountryDirectory(countries);
+console.log(directory);
+
+
+// home work 6
+
